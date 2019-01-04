@@ -37,13 +37,7 @@ router.get('/requestToken', function(req, res, next) {
     .then(res => {
       console.log(res);
 
-      var response = {
-        statusCode: 200,
-        headers: {},
-        body: res,
-        isBase64Encoded: false
-      };
-      cb(null, response);
+      res.send(res).status(200);
     });
 });
 
