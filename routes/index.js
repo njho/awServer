@@ -37,7 +37,7 @@ router.get('/requestToken', function(req, res, next) {
     .then(res => {
       console.log(res);
 
-      res.send(res).status(200);
+      res.status(200).send(res);
     });
 });
 
