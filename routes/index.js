@@ -29,13 +29,12 @@ router.get('/requestToken', function(req, res, next) {
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json' }
   })
-    .then(res => {
-      console.log(res);
+    .then(response => {
       return res.text();
       // console.log(res.text());
     })
-    .then(res => {
-      console.log(res);
+    .then(response => {
+      console.log('This is the response received: ' + response);
 
       res.status(200).send(res);
     });
