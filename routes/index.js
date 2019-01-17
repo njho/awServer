@@ -14,30 +14,39 @@ console.log('These are the environment variables: ' + process.env);
 console.log(SSL_MERCHANT_ID);
 console.log(SSL_PIN);
 console.log(SSL_USER_ID);
+
 /* GET home page. */
-router.get('/requestToken', function(req, res, next) {
+router.get('/requestToken', async (req, res, next) => {
+  const url = 'https://demo.convergepay.com/hosted-payments/transaction_token';
+
+  const { amount } = req.params;
+
   const body = {
     ssl_merchant_id: SSL_MERCHANT_ID,
     ssl_pin: SSL_PIN,
-    ssl_transaction_type: 'CCSALE',
-    ssl_amount: '14.00',
-    ssl_user_id: SSL_USER_ID
+    ssl_transaction_type: 'CCGETTOKEN',
+    ssl_amount: amount,
+    ssl_user_id: SSL_USER_ID,
+    amount
   };
 
-  fetch('https://demo.convergepay.com/hosted-payments/transaction_token', {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json' }
-  })
-    .then(response => {
-      return response.text();
-      // console.log(res.text());
-    })
-    .then(response => {
-      console.log('This is the response received: ' + response);
+  let token = '';
 
-      res.status(200).send(response);
+  try {
+    const result = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
     });
+    token = await result.text();
+  } catch (e) {
+    console.log('wtf');
+    console.log(e);
+  }
+
+  res.send(JSON.stringify({ token }));
 });
 
 module.exports = router;
