@@ -15,8 +15,7 @@ console.log(SSL_MERCHANT_ID);
 console.log(SSL_PIN);
 console.log(SSL_USER_ID);
 
-/* GET home page. */
-router.get('/requestToken', async (req, res, next) => {
+router.post('/requestToken', async (req, res, next) => {
   const url = 'https://demo.convergepay.com/hosted-payments/transaction_token';
 
   const { amount } = req.params;
